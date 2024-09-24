@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,11 +11,16 @@ const Login = () => {
     setRememberMe(!rememberMe);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {email,password}
+      );
+      console.log(response.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

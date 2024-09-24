@@ -1,10 +1,22 @@
 
 import './App.css'
+import {Routes, Route, Navigate, BrowserRouter} from 'react-router-dom'
+import Login from './pages/Login'
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
   
   return (
-    <div className='text-3xl text-teal-500'>Welcome to EMS</div>
+    <BrowserRouter>
+      
+        <Routes>
+          <Route path="/" element={<Navigate to="/AdminDashboard" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/adminDashboard" element={<AdminDashboard />} />
+        </Routes>
+      
+    
+  </BrowserRouter>
   )
 }
 

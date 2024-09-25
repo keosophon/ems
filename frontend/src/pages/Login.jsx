@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+//import { set } from "mongoose";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -15,10 +17,19 @@ const Login = () => {
     e.preventDefault();
     // Handle login logic here
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {email,password}
-      );
+      const response = await axios.post("http://localhost:5000/api/auth/login", {email,password});
       console.log(response.data);
+      localStorage.setItem("token", response.data.token);
+      if (response.data.user.role === "admin") {        
+        window.location.href = "/adminDashboard";
+      }
+      else {
+       window.location.href = "/employeeDashboard"; 
+      }
+      setError("");
+      
     } catch (error) {
+      setError(error.response.data.message);
       console.log(error);
     }
   };
@@ -29,6 +40,7 @@ const Login = () => {
       <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
         
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+        {error && <p className="text-center text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Input */}
           <div>

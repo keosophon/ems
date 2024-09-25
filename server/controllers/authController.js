@@ -27,7 +27,6 @@ const loginController = async (req, res) => {
     );
 
     res.status(200).send({
-      message: "Login Successful!",
       success: true,
       token,
       user: {
@@ -37,9 +36,8 @@ const loginController = async (req, res) => {
         role: user.role,
       },
     });
-    console.log(token);
   } catch (err) {
-    res.status(500).send({ message: err });
+    res.status(500).send({ success: false, error: err.message });
     console.log(err.message);
   }
 };

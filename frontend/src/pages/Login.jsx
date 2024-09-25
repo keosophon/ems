@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 //import { set } from "mongoose";
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
   const [error, setError] = useState("");
 
   const [rememberMe, setRememberMe] = useState(false);
+  const {login} = useAuthContext();
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
@@ -15,12 +17,13 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    // Handle login logic
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login", {email,password});
-      console.log(response.data);
+      console.log(response.data.user);
+      login(response.data.user);
       localStorage.setItem("token", response.data.token);
-      if (response.data.user.role === "admin") {        
+      if (response.data.user.role === "admin") {                
         window.location.href = "/adminDashboard";
       }
       else {

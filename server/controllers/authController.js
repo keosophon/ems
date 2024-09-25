@@ -19,7 +19,7 @@ const loginController = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { email: user.email, _id: user._id, role: user.role },
+      { id: user._id, role: user.role },
       process.env.JWT_SECRET,
       {
         expiresIn: "1d",
@@ -39,6 +39,16 @@ const loginController = async (req, res) => {
   } catch (err) {
     res.status(500).send({ success: false, error: err.message });
     console.log(err.message);
+  }
+};
+
+const verify = (req, res) => {
+  try {
+    const token = req.body.token;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.status(200).send({ success: true, user: decoded });
+  } catch (err) {
+    res.status(500).send({ success: false, error: err.message });
   }
 };
 

@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../context/AuthContext";
-//import { set } from "mongoose";
-
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

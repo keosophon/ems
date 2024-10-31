@@ -7,22 +7,22 @@ const loginController = async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
-      res.status(404).send({ message: "User Not found." });
+      res.status(404).json({ success: false, error: "User Not found." });
       return;
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if (!validPassword) {
-      res.status(401).send({ message: "Invalid Password!" });
+    if (!isValidPassword) {
+      res.status(404).json({ success: false, error: "Wrong Password" });
       return;
     }
 
     const token = jwt.sign(
-      { id: user._id, role: user.role },
+      { _id: user._id, role: user.role },
       process.env.JWT_SECRET,
       {
-        expiresIn: "1d",
+        expiresIn: "10d",
       }
     );
 
@@ -32,24 +32,16 @@ const loginController = async (req, res) => {
       user: {
         _id: user._id,
         name: user.name,
-        email: user.email,
         role: user.role,
       },
     });
   } catch (err) {
-    res.status(500).send({ success: false, error: err.message });
+    res.status(500).json({ success: false, error: err.message });
     console.log(err.message);
   }
 };
 
-const verifyController = (req, res) => {
-  try {
-    const token = req.body.token;
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    res.status(200).send({ success: true, user: decoded });
-  } catch (err) {
-    res.status(500).send({ success: false, error: err.message });
-  }
-};
+const verify = (req, res) =>
+  res.status(200).json({ success: true, user: req.user });
 
-export { loginController, verifyController };
+export { loginController, verify };

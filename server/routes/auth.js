@@ -1,13 +1,12 @@
 import express from "express";
 
-import {
-  loginController,
-  verifyController,
-} from "../controllers/authController.js";
+import { loginController, verify } from "../controllers/authController.js";
+
+import { verifyController } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/login", loginController);
-router.get("/login", verifyController);
+router.post("/verify", verifyController, verify);
 
 export default router;

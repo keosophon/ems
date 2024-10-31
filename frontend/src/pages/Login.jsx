@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(null);
 
   const [rememberMe, setRememberMe] = useState(false);
   const {login} = useAuthContext();
+  const navigate = useNavigate();
 
   const handleRememberMe = () => {
     setRememberMe(!rememberMe);
@@ -18,28 +20,32 @@ const Login = () => {
     // Handle login logic
     try {
       const response = await axios.post("http://localhost:5000/api/auth/login", {email,password});
-      console.log(response.data.user);
       login(response.data.user);
       localStorage.setItem("token", response.data.token);
       if (response.data.user.role === "admin") {                
-        window.location.href = "/adminDashboard";
+       navigate("/adminDashboard");
       }
       else {
-       window.location.href = "/employeeDashboard"; 
+       navigate("/employeeDashboard") ; 
       }
       setError("");
       
     } catch (error) {
-      setError(error.response.data.message);
-      console.log(error);
+      if (error.response && !error.response.data.success) {
+        setError(error.response.data.error);
+        console.log(error)
+      }
+      else {
+        setError("Server Error");
+      }
+      ;
     }
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-green-500 to-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-green-500 to-gray-100 space-y-6">
       <h2 className="font-kalam font-bold text-3xl text-white text-center mb-6">Employee Management System</h2>
-      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-        
+      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">        
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
         {error && <p className="text-center text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">

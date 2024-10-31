@@ -1,26 +1,34 @@
 
 import React, {useState, createContext, useContext, useEffect} from 'react'
-//import {useNavigate} from 'react-router-dom'
 
 const userContext = createContext()
 
 const AuthContext = ({children}) => {
-    const [user, setUser] = useState(null);
-    //const navigate = useNavigate();
+    const [user, setUser] = useState(null); 
+    const [loading, setLoading] = useState(null);
 
-    const verifyUser = async () => {
-      try {
-        const res = await axios.get("https://localhost:5000/api/auth/verify", {
-          headers: { Authorization: token },
-        });
-        if (res.data.success) setUser(res.data.user);
-      } catch (error) {
-        console.error("error", error);
-        //navigate("/login");
-      }
-    };
-  
     useEffect(() => {
+      const verifyUser = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if (token) {
+            const response = await axios.get("https://localhost:5000/api/auth/verify", {
+            headers: { "Authorization": `Bearer ${token }`}})
+            if (response.data.success) {
+              setUser(response.data.user);
+            }
+          }
+          else {
+            setUser(null);
+          }
+        } catch (error) {
+          if (error.response && !error.response.data.error) {
+            setUser(null);
+          }
+        } finally {
+          setLoading(false);
+        }
+      };
       verifyUser();
     }, []);
 
@@ -32,7 +40,7 @@ const AuthContext = ({children}) => {
     }
 
   return (
-    <userContext.Provider value={{user, login, logout}}>
+    <userContext.Provider value={{user, login, logout,loading}}>
         {children}
     </userContext.Provider>
   )

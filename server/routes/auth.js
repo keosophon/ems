@@ -7,6 +7,6 @@ import { verifyController } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/login", loginController);
-router.post("/verify", verifyController, verify);
+router.get("/verify", verifyController, verify);
 
 export default router;

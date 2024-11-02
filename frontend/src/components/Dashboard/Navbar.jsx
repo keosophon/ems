@@ -1,5 +1,5 @@
 import React from 'react';
-import { useAuthContext } from '../context/AuthContext';
+import { useAuthContext } from '../../context/AuthContext';
 
 export default function Navbar() {
   const { user } = useAuthContext();
@@ -9,7 +9,7 @@ export default function Navbar() {
       <div className="text-2xl font-bold text-white">
         Welcome, {user.name}
       </div>
-      <button className=" text-white text-2xl font-bold px-4 py-2 rounded-md hover:bg-teal-900 transition">
+      <button className=" text-white text-2xl font-bold px-4 py-2 rounded-md hover:bg-orange-700 transition">
         Log out
       </button>
     </div>

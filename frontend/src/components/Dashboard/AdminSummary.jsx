@@ -5,13 +5,13 @@ import { FaBuilding, FaCheckCircle, FaFileAlt, FaHourglassHalf, FaMoneyBillWave,
 export default function AdminSummary() {
   return (
     <div className='p-6'>
-      <h3 className="text-2xl font-bold mb-4">Dashboard Overview</h3>
+      <h3 className="text-2xl text-center font-bold mb-4">Dashboard Overview</h3>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-6'>
         <SummaryCard icon= {<FaUser />} text={"Total Employee"} number={13} color={"bg-orange-400"}/>
         <SummaryCard icon= {<FaBuilding />} text={"Total Departments"} number={50} color={"bg-yellow-400"}/>
         <SummaryCard icon= {<FaMoneyBillWave />} text={"Total Salary"} number={100} color={"bg-green-400"}/>
       </div>
-      <div className='mt-12'>
+      <div className='mt-16'>
       <h3 className="text-center text-2xl font-bold ">Leave Details</h3>
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4 mt-6'>
         <SummaryCard icon= {<FaFileAlt />} text={"Leave Applied"} number={13} color={"bg-red-400"}/>

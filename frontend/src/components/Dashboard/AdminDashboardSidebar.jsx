@@ -12,8 +12,9 @@ export default function AdminDashboardSidebar() {
               className={({ isActive }) =>
                 `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md mt-5 py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
-                }`
+                } ` 
               }
+              end
             >
                 <FaTachometerAlt className="text-lg" />
                 <span>Dashboard</span>
@@ -24,7 +25,7 @@ export default function AdminDashboardSidebar() {
                 `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 }
-                end`
+                `
               }
             >
                 <FaUser className="text-lg" />

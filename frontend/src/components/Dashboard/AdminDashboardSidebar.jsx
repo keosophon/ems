@@ -10,7 +10,7 @@ export default function AdminDashboardSidebar() {
             <NavLink 
               to="/AdminDashboard" 
               className={({ isActive }) =>
-                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md mt-5 py-3 px-4 transition-colors ${
+                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md mt-5 py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 } ` 
               }
@@ -22,7 +22,7 @@ export default function AdminDashboardSidebar() {
             <NavLink 
               to="/EmployeeDashboard" 
               className={({ isActive }) =>
-                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md py-3 px-4 transition-colors ${
+                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 }
                 `
@@ -34,7 +34,7 @@ export default function AdminDashboardSidebar() {
             <NavLink 
               to="/AdminDashboard/DepartmentList" 
               className={({ isActive }) =>
-                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md py-3 px-4 transition-colors ${
+                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 }`
               }
@@ -45,7 +45,7 @@ export default function AdminDashboardSidebar() {
             <NavLink 
               to="/LeavesDashboard" 
               className={({ isActive }) =>
-                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md py-3 px-4 transition-colors ${
+                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 }`
               }
@@ -56,7 +56,7 @@ export default function AdminDashboardSidebar() {
             <NavLink 
               to="/SalaryDashboard" 
               className={({ isActive }) =>
-                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md py-3 px-4 transition-colors ${
+                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 }`
               }
@@ -67,7 +67,7 @@ export default function AdminDashboardSidebar() {
             <NavLink 
               to="/SettingsDashboard" 
               className={({ isActive }) =>
-                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-gray-700 rounded-md py-3 px-4 transition-colors ${
+                `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md py-3 px-4 transition-colors ${
                   isActive ? 'bg-orange-700 text-white' : ''
                 }`
               }

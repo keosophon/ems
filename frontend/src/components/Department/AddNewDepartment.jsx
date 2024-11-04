@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 export default function AddNewDepartment() {
   const [departmentName, setDepartmentName] = useState('');
   const [description, setDescription] = useState('');
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Basic validation
@@ -13,9 +17,36 @@ export default function AddNewDepartment() {
       return;
     }
 
-    // Submit form data
-    console.log({ departmentName, description });
+      // Get token from local storage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error("No token found, user may not be authenticated");
+      alert("Please log in to continue");
+      return; // Exit if token is missing
+    }
 
+    // Submit form data    
+    try {
+      const response = await axios.post('http://localhost:5000/api/department/add', {departmentName, description}, {
+        headers: { "Authorization": `Bearer ${token }`}});
+
+
+        if (response.data.success) {          
+          navigate('/AdminDashboard/DepartmentList');
+        }
+
+        else {
+          console.error("Failed to add department:", response.data);
+          alert(response.data.message || "Failed to add department");
+        }
+    } catch (error) {
+      //console.error("Error in POST request:", error.response?.data || error.message);
+      if (error.response) {
+          alert("Server Error: " + (error.response.data.message || error.response.data.error || "Could not add department"));
+      } else {
+          alert("Request failed: Could not connect to server");
+      }
+  }
     // Reset fields after submission
     setDepartmentName('');
     setDescription('');
@@ -61,7 +92,7 @@ export default function AddNewDepartment() {
               type="submit"
               className="w-full py-2 px-4 bg-orange-600 text-white font-semibold rounded-md shadow hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
-              Submit
+              Add Department
             </button>
           </div>
         </form>

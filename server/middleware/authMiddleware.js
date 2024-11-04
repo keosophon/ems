@@ -1,5 +1,5 @@
 import User from "../models/User.js";
-
+import jwt from "jsonwebtoken";
 const verifyController = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(" ")[1];
@@ -20,7 +20,8 @@ const verifyController = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.status(500).json({ success: false, error: "Server Error" });
+    console.log(err.stack);
+    res.status(500).json({ success: false, error: "Internal Server Error" });
   }
 };
 

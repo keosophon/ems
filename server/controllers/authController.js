@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
+    //console.log({ email, password });
     const user = await User.findOne({ email: email });
     if (!user) {
       res.status(404).json({ success: false, error: "User Not found." });

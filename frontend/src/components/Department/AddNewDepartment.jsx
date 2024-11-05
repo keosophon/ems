@@ -17,7 +17,7 @@ export default function AddNewDepartment() {
       return;
     }
 
-      // Get token from local storage
+    // Get token from local storage
     const token = localStorage.getItem('token');
     if (!token) {
       console.error("No token found, user may not be authenticated");

@@ -35,4 +35,23 @@ const addDepartment = async (req, res) => {
   }
 };
 
-export { addDepartment };
+const getAllDepartments = async (req, res) => {
+  try {
+    // Retrieve all departments from the database
+    const departments = await Department.find();
+
+    // Send success response with the departments data
+    res.status(200).json({
+      success: true,
+      data: departments,
+    });
+  } catch (error) {
+    console.error("Error fetching departments:", error);
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
+
+export { addDepartment, getAllDepartments };

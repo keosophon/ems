@@ -1,3 +1,5 @@
+
+
 export const columns = [
     { name: "id", selector: (row) => row._id },
     {
@@ -20,5 +22,19 @@ export const columns = [
       selector: (row) => new Date(row.updatedAt).toLocaleDateString(),
       sortable: true,
     },
+    {
+      name:"Action",
+      selector:(row)=>row.action
+    }
   ];
+  
+  
+  export function ActionButtons() {
+    return (
+      <div>
+        <button className="bg-green-600 hover:bg-green-700 rounded text-xl text-white p-2 mr-2 ">Edit</button>
+        <button className="bg-red-600 hover:bg-red-700 rounded text-xl text-white p-2">Delete</button>
+      </div>
+    )
+  }
   

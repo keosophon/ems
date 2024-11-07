@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import DataTable from 'react-data-table-component';
 import axios from 'axios';
-
-import { columns } from './Columns';
+import { ActionButtons, columns } from './Columns';
 
 export default function DepartmentList() {
   const [departments, setDepartments] = useState([]);
@@ -26,9 +25,14 @@ export default function DepartmentList() {
           headers: { "Authorization": `Bearer ${token}` },
         });
         if (response.data.success) {
-          setDepartments(response.data.data); // Adjust to response structure
+          const data = response.data.data.map((dep)=>(
+            {...dep, action:<ActionButtons />}));
+          setDepartments(data); // Adjust to response structure
         }
       } catch (error) {
+        if (response.error && !response.error.data.success) {
+          alert(error.response.data.error);
+        }
         console.error("Error fetching departments:", error);
       }
     };

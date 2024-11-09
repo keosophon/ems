@@ -54,4 +54,32 @@ const getAllDepartments = async (req, res) => {
   }
 };
 
-export { addDepartment, getAllDepartments };
+// Get Department by ID
+const getDepartmentById = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Find the department by ID
+    const department = await Department.findById(id);
+
+    // Check if department exists
+    if (!department) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Department not found" });
+    }
+
+    // Respond with department data
+    console.log(department);
+    res.status(200).json({ success: true, data: department });
+  } catch (error) {
+    // Handle server error
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "Server error while fetching department",
+    });
+  }
+};
+
+export { addDepartment, getAllDepartments, getDepartmentById };

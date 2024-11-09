@@ -26,7 +26,7 @@ export default function DepartmentList() {
         });
         if (response.data.success) {
           const data = response.data.data.map((dep)=>(
-            {...dep, action:<ActionButtons />}));
+            {...dep, action:<ActionButtons id={dep._id}/>}));
           setDepartments(data); // Adjust to response structure
         }
       } catch (error) {

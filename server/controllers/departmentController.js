@@ -1,5 +1,6 @@
 import Department from "../models/Department.js";
 
+
 // Controller to add a new department
 const addDepartment = async (req, res) => {
   const { departmentName, description } = req.body;
@@ -113,9 +114,38 @@ const updateDepartmentById = async (req, res) => {
   }
 };
 
+const deleteDepartmentById = async (req, res) => {
+  try {
+    const { id } = req.params; // Get the department ID from the request parameters
+
+    // Find the department by ID and delete it
+    const deletedDepartment = await Department.findByIdAndDelete(id);
+
+    // Check if department exists
+    if (!deletedDepartment) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Department not found" });
+    }
+
+    // Respond with success message
+    return res
+      .status(200)
+      .json({ success: true, message: "Department deleted successfully" });
+  } catch (error) {
+    // Handle server error
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while deleting department",
+    });
+  }
+};
+
 export {
   addDepartment,
   getAllDepartments,
   getDepartmentById,
   updateDepartmentById,
+  deleteDepartmentById,
 };

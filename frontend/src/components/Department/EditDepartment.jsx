@@ -81,13 +81,22 @@ function EditDepartment() {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
+  if (success) {
+    setTimeout(() => {
+      setSuccess(false);
+      navigate("/AdminDashboard/DepartmentList"); // Redirect to department list after 3 seconds
+    }, 1000);
+    return (
+      <p className="text-green-500 text-size-2xl pb-3">
+        Department updated successfully
+      </p>
+    );
+  }
 
   return (
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mt-10">
       <h2 className="text-2xl font-semibold mb-4">Edit Department</h2>
-      {success && (
-        <p className="text-green-500 pb-3">Department updated successfully</p>
-      )}
+
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700">Name</label>

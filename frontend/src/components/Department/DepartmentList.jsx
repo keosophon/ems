@@ -1,44 +1,50 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DataTable from 'react-data-table-component';
-import axios from 'axios';
-import { ActionButtons, columns } from './Columns';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import DataTable from "react-data-table-component";
+import axios from "axios";
+import { ActionButtons, columns } from "./Columns";
 
 export default function DepartmentList() {
   const [departments, setDepartments] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    // Get token from local storage
-    const token = localStorage.getItem('token');
-    if (!token) {
-      console.error("No token found, user may not be authenticated");
-      alert("Please log in to continue");
-      navigate('/login'); // Redirect to login if no token
-      return;
-    }
+  // Get token from local storage
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("No token found, user may not be authenticated");
+    alert("Please log in to continue");
+    navigate("/login"); // Redirect to login if no token
+    return;
+  }
 
-    // Fetch departments data from your server
-    const fetchDepartments = async () => {
-      try {
-        const response = await axios.get('http://localhost:5000/api/department', {
-          headers: { "Authorization": `Bearer ${token}` },
-        });
-        if (response.data.success) {
-          const data = response.data.data.map((dep)=>(
-            {...dep, action:<ActionButtons id={dep._id}/>}));
-          setDepartments(data); // Adjust to response structure
-        }
-      } catch (error) {
-        if (response.error && !response.error.data.success) {
-          alert(error.response.data.error);
-        }
-        console.error("Error fetching departments:", error);
+  const fetchDepartments = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/api/department", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      if (response.data.success) {
+        const data = response.data.data.map((dep) => ({
+          ...dep,
+          action: <ActionButtons id={dep._id} onRefresh={handleRefresh} />,
+        }));
+        setDepartments(data); // Adjust to response structure
       }
-    };
+    } catch (error) {
+      if (response.error && !response.error.data.success) {
+        alert(error.response.data.error);
+      }
+      console.error("Error fetching departments:", error);
+    }
+  };
 
+  useEffect(() => {
+    // Fetch departments data from your server
     fetchDepartments();
   }, [navigate]);
+
+  const handleRefresh = () => {
+    fetchDepartments();
+  };
 
   return (
     <div>

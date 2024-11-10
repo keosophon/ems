@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const columns = [
   { name: "id", selector: (row) => row._id },
@@ -28,8 +29,38 @@ export const columns = [
   },
 ];
 
-export function ActionButtons({ id }) {
+export function ActionButtons({ id, onRefresh }) {
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("No token found, user may not be authenticated");
+    alert("Please log in to continue");
+    navigate("/login");
+    return;
+  }
   const navigate = useNavigate();
+  const handleDelete = async () => {
+    let userConfirmation = confirm(
+      "Are you sure you want to delete this department?"
+    );
+    if (userConfirmation) {
+      try {
+        const response = await axios.delete(
+          `http://localhost:5000/api/department/delete/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        if (response.data.success) {
+          onRefresh(); // Refresh the list
+        }
+      } catch (error) {
+        console.error(error);
+        alert("Failed to delete department");
+      }
+    }
+  };
   return (
     <div>
       <button
@@ -38,7 +69,10 @@ export function ActionButtons({ id }) {
       >
         Edit
       </button>
-      <button className="bg-red-600 hover:bg-red-700 rounded text-xl text-white p-2">
+      <button
+        className="bg-red-600 hover:bg-red-700 rounded text-xl text-white p-2"
+        onClick={handleDelete}
+      >
         Delete
       </button>
     </div>

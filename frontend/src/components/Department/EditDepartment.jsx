@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function EditDepartment() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const [departmentData, setDepartmentData] = useState({
     departmentName: "",
@@ -12,15 +14,17 @@ function EditDepartment() {
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
 
+  const token = localStorage.getItem("token");
+  if (!token) {
+    console.error("No token found, user may not be authenticated");
+    alert("Please log in to continue");
+    navigate("/login"); // Redirect to login if no token
+    return;
+  }
+
   useEffect(() => {
     // Fetch the department data by ID when component mounts
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("No token found, user may not be authenticated");
-      alert("Please log in to continue");
-      navigate("/login"); // Redirect to login if no token
-      return;
-    }
+
     const fetchDepartment = async () => {
       try {
         const response = await axios.get(
@@ -52,15 +56,25 @@ function EditDepartment() {
   /******  7e8955b7-fee8-4f11-8665-5fcdaaf8a788  *******/
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, value);
     setDepartmentData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`/api/department/edit/${id}`, departmentData);
+      const response = await axios.put(
+        `http://localhost:5000/api/department/update/${id}`,
+        departmentData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setSuccess(true);
     } catch (error) {
+      console.error("Error updating department:", error.stack);
       setError("Error updating department");
     }
   };
@@ -72,14 +86,14 @@ function EditDepartment() {
     <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md mt-10">
       <h2 className="text-2xl font-semibold mb-4">Edit Department</h2>
       {success && (
-        <p className="text-green-500">Department updated successfully!</p>
+        <p className="text-green-500 pb-3">Department updated successfully</p>
       )}
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700">Name</label>
           <input
             type="text"
-            name="name"
+            name="departmentName"
             value={departmentData.departmentName}
             onChange={handleChange}
             className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-600"

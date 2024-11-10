@@ -18,7 +18,7 @@ const addDepartment = async (req, res) => {
       description,
     });
 
-    console.log({ departmentName, description });
+    //console.log({ departmentName, description });
     // Save the new department to the database
     const savedDepartment = await newDepartment.save();
     return res.status(200).json({
@@ -70,7 +70,7 @@ const getDepartmentById = async (req, res) => {
     }
 
     // Respond with department data
-    console.log(department);
+    //console.log(department);
     res.status(200).json({ success: true, data: department });
   } catch (error) {
     // Handle server error
@@ -82,4 +82,40 @@ const getDepartmentById = async (req, res) => {
   }
 };
 
-export { addDepartment, getAllDepartments, getDepartmentById };
+const updateDepartmentById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { departmentName, description } = req.body;
+
+    // Find the department by ID and update its details
+    const updatedDepartment = await Department.findByIdAndUpdate(
+      id,
+      { departmentName, description },
+      { new: true }
+    );
+
+    // Check if department exists
+    if (!updatedDepartment) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Department not found" });
+    }
+
+    // Respond with updated department data
+    return res.status(200).json({ success: true, data: updatedDepartment });
+  } catch (error) {
+    // Handle server error
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error while updating department",
+    });
+  }
+};
+
+export {
+  addDepartment,
+  getAllDepartments,
+  getDepartmentById,
+  updateDepartmentById,
+};

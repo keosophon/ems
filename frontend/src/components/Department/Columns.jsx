@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export const columns = [
-  { name: "id", selector: (row) => row._id },
+  { name: "id", selector: (row) => row._id, sortable: true },
   {
     name: "Department Name",
     selector: (row) => row.departmentName,

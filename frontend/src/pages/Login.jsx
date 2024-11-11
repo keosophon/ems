@@ -8,7 +8,7 @@ const Login = () => {
   const [error, setError] = useState(null);
 
   const [rememberMe, setRememberMe] = useState(false);
-  const {login} = useAuthContext();
+  const { login } = useAuthContext();
   const navigate = useNavigate();
 
   const handleRememberMe = () => {
@@ -19,39 +19,45 @@ const Login = () => {
     e.preventDefault();
     // Handle login logic
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", {email,password});
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        { email, password }
+      );
       login(response.data.user);
       localStorage.setItem("token", response.data.token);
-      if (response.data.user.role === "admin") {                
-       navigate("/adminDashboard");
-      }
-      else {
-       navigate("/employeeDashboard") ; 
+      if (response.data.user.role === "admin") {
+        navigate("/adminDashboard");
+      } else {
+        navigate("/employeeDashboard");
       }
       setError("");
-      
     } catch (error) {
       if (error.response && !error.response.data.success) {
         setError(error.response.data.error);
-        console.log(error)
-      }
-      else {
+        console.log(error);
+      } else {
         setError("Server Error");
       }
-      ;
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-gradient-to-b from-green-500 to-gray-100 space-y-6">
-      <h2 className="font-kalam font-bold text-3xl text-white text-center mb-6">Employee Management System</h2>
-      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">        
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
+      <h2 className="font-kalam font-bold text-3xl text-white text-center mb-6">
+        Employee Management System
+      </h2>
+      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">
+          Login
+        </h2>
         {error && <p className="text-center text-red-500">{error}</p>}
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700"
+            >
               Email Address
             </label>
             <input
@@ -67,7 +73,10 @@ const Login = () => {
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
               Password
             </label>
             <input
@@ -89,7 +98,10 @@ const Login = () => {
                 onChange={handleRememberMe}
                 className="h-4 w-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
               />
-              <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+              <label
+                htmlFor="remember-me"
+                className="ml-2 block text-sm text-gray-900"
+              >
                 Remember me
               </label>
             </div>

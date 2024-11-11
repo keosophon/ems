@@ -6,6 +6,7 @@ import { ActionButtons, columns } from "./Columns";
 
 export default function DepartmentList() {
   const [departments, setDepartments] = useState([]);
+  const [filteredDepartments, setFilterDepartments] = useState([]);
   const navigate = useNavigate();
 
   // Get token from local storage
@@ -27,7 +28,8 @@ export default function DepartmentList() {
           ...dep,
           action: <ActionButtons id={dep._id} onRefresh={handleRefresh} />,
         }));
-        setDepartments(data); // Adjust to response structure
+        setDepartments(data);
+        setFilterDepartments(data); // Adjust to response structure
       }
     } catch (error) {
       if (response.error && !response.error.data.success) {
@@ -56,6 +58,13 @@ export default function DepartmentList() {
           type="text"
           placeholder="search by department name"
           className="text-center text-lg rounded w-72"
+          onChange={(e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = departments.filter((dep) =>
+              dep.departmentName.toLowerCase().includes(searchTerm)
+            );
+            setFilterDepartments(filtered);
+          }}
         />
         <Link
           to="/AdminDashboard/AddNewDepartment"
@@ -67,7 +76,7 @@ export default function DepartmentList() {
       <div>
         <DataTable
           columns={columns}
-          data={departments}
+          data={filteredDepartments}
           pagination // Enables pagination
           highlightOnHover
           selectableRows // Optional: enables row selection

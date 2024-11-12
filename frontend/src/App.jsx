@@ -10,6 +10,8 @@ import AdminSummary from "./components/Dashboard/AdminSummary";
 import DepartmentList from "./components/Department/DepartmentList";
 import AddNewDepartment from "./components/Department/AddNewDepartment";
 import EditDepartment from "./components/Department/EditDepartment";
+import EmployeeList from "./components/Employee/EmployeeList";
+import AddEmployee from "./components/Employee/AddEmployee";
 
 function App() {
   return (
@@ -29,6 +31,14 @@ function App() {
         >
           <Route index element={<AdminSummary />}></Route>
           <Route
+            path="/AdminDashboard/EmployeeList"
+            element={<EmployeeList />}
+          />
+          <Route
+            path="/AdminDashboard/AddEmployee"
+            element={<AddEmployee />}
+          ></Route>
+          <Route
             path="/AdminDashboard/DepartmentList"
             element={<DepartmentList />}
           ></Route>
@@ -41,7 +51,6 @@ function App() {
             element={<EditDepartment />}
           ></Route>
         </Route>
-        <Route path="/employeeDashboard" element={<EmployeeDashboard />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import getDepartment from "../../utils/DepartmentGetter";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEmployee() {
+  const navigate = useNavigate();
   const [departments, setDepartments] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
@@ -43,10 +46,32 @@ export default function AddEmployee() {
   };
 
   // Handle form submission (optional implementation)
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
-    // Perform form submission logic here (e.g., API POST request)
+
+    const formDataObj = new FormData();
+    Object.keys(formData).forEach((key) => {
+      formDataObj.append(key, formData[key]);
+    });
+
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/employee/add",
+        formDataObj,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (response.data.success) {
+        navigate("/AdminDashboard/EmployeeList");
+      }
+    } catch (error) {
+      if (response.error && !response.error.data.success) {
+        alert(error.response.data.error);
+      }
+      console.error("Error adding employee:", error);
+    }
   };
 
   return (
@@ -135,8 +160,8 @@ export default function AddEmployee() {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Select Gender</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
           </select>
         </div>
         <div>
@@ -154,8 +179,8 @@ export default function AddEmployee() {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Select Status</option>
-            <option value="single">Single</option>
-            <option value="married">Married</option>
+            <option value="Single">Single</option>
+            <option value="Married">Married</option>
           </select>
         </div>
         <div>
@@ -243,8 +268,8 @@ export default function AddEmployee() {
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="">Select Role</option>
-            <option value="admin">Admin</option>
-            <option value="employee">Employee</option>
+            <option value="Admin">Admin</option>
+            <option value="Employee">Employee</option>
           </select>
         </div>
         <div>

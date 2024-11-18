@@ -13,14 +13,7 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  },
-  /*
-    isAdmin: {
-        type: Boolean,
-        required: true,
-        default: false,
-    },
-    */
+  },  
   role: { type: String, enum: ["admin", "employee"], required: true },
   profileImage: { type: String },
   createAt: { type: Date, default: Date.now },

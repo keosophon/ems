@@ -4,8 +4,14 @@ import { addEmployee } from "../controllers/employeeController.js";
 import multer from "multer";
 
 const employeeRouter = express.Router();
-//const upload = multer();
-const storage = multer.memoryStorage(); // Stores the file in memory as a buffer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
 const upload = multer({ storage });
 
 employeeRouter.post(

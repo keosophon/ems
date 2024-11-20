@@ -1,6 +1,9 @@
 import express from "express";
 import { verifyController } from "../middleware/authMiddleware.js";
-import { addEmployee } from "../controllers/employeeController.js";
+import {
+  addEmployee,
+  getEmployees,
+} from "../controllers/employeeController.js";
 import multer from "multer";
 
 const employeeRouter = express.Router();
@@ -21,5 +24,7 @@ employeeRouter.post(
 
   addEmployee
 );
+
+employeeRouter.get("/", verifyController, getEmployees);
 
 export default employeeRouter;

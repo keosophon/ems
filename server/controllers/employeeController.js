@@ -69,4 +69,23 @@ const addEmployee = async (req, res) => {
   }
 };
 
-export { addEmployee };
+const getEmployees = async (req, res) => {
+  try {
+    const employees = await Employee.find()
+      .populate("userId")
+      .populate("Department");
+    console.log(employees);
+    res.status(200).json({
+      success: true,
+      employees,
+    });
+  } catch (error) {
+    console.error("Error in getEmployeesController:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch employees.",
+    });
+  }
+};
+
+export { addEmployee, getEmployees };

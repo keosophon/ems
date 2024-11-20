@@ -72,7 +72,7 @@ const addEmployee = async (req, res) => {
 const getEmployees = async (req, res) => {
   try {
     const employees = await Employee.find()
-      .populate("userId")
+      .populate("userId", { password: 0 })
       .populate("Department");
     console.log(employees);
     res.status(200).json({

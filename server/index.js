@@ -4,6 +4,7 @@ import authRouter from "./routes/auth.js";
 import departmentRouter from "./routes/department.js";
 import connectDB from "./db/db.js";
 import employeeRouter from "./routes/employee.js";
+import path from "path";
 
 connectDB();
 
@@ -11,6 +12,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static("public/uploads"));
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRouter);
 app.use("/api/department", departmentRouter);

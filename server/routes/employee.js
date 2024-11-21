@@ -21,7 +21,6 @@ employeeRouter.post(
   "/add",
   upload.single("image"),
   verifyController,
-
   addEmployee
 );
 

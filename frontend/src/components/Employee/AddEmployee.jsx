@@ -67,9 +67,8 @@ export default function AddEmployee() {
         navigate("/AdminDashboard/EmployeeList");
       }
     } catch (error) {
-      if (response.error && !response.error.data.success) {
-        alert(error.response.data.error);
-      }
+      console.log(error);
+
       console.error("Error adding employee:", error);
     }
   };

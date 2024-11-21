@@ -31,7 +31,7 @@ const addEmployee = async (req, res) => {
     const newUser = new User({
       name: formData.name,
       email: formData.email,
-      password: formData.password,
+      password: hashedPassword,
       role: formData.role,
       profileImage: req.file ? req.file.filename : "",
     });

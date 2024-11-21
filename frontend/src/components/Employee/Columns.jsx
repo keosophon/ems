@@ -20,9 +20,9 @@ export const columns = [
     name: "Image",
     selector: (row) => (
       <img
-        src={`http://localhost:5000/public/uploads/${row.userId.profileImage}`}
+        src={`http://localhost:5000/uploads/${row.userId.profileImage}`}
         alt="Employee Profile"
-        style={{ width: "50px", height: "50px", borderRadius: "50%" }}
+        style={{ width: "70px", height: "70px", borderRadius: "50%" }}
       />
     ),
     sortable: true,

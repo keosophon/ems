@@ -68,8 +68,8 @@ export default function AddEmployee() {
       }
     } catch (error) {
       console.log(error);
-
-      console.error("Error adding employee:", error);
+      alert("Failed to add employee", error.response.data.message);
+      //console.error("Error adding employee:", error);
     }
   };
 

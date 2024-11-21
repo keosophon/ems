@@ -34,7 +34,7 @@ export default function EmployeeList() {
     } catch (error) {
       //alert(error.response.data.error);
 
-      console.error("Error fetching departments:", error);
+      console.error("Error fetching employee:", error);
     }
   };
 

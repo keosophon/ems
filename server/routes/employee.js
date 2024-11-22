@@ -3,6 +3,7 @@ import { verifyController } from "../middleware/authMiddleware.js";
 import {
   addEmployee,
   getEmployees,
+  getEmployeeById,
 } from "../controllers/employeeController.js";
 import multer from "multer";
 
@@ -25,5 +26,7 @@ employeeRouter.post(
 );
 
 employeeRouter.get("/", verifyController, getEmployees);
+
+employeeRouter.get("/:id", verifyController, getEmployeeById);
 
 export default employeeRouter;

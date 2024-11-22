@@ -88,4 +88,22 @@ const getEmployees = async (req, res) => {
   }
 };
 
-export { addEmployee, getEmployees };
+const getEmployeeById = async (req, res) => {
+  try {
+    const employee = await Employee.findById(req.params.id)
+      .populate("userId", { password: 0 })
+      .populate("Department");
+    res.status(200).json({
+      success: true,
+      employee,
+    });
+  } catch (error) {
+    console.error("Error in getEmployeeByIdController:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch employee.",
+    });
+  }
+};
+
+export { addEmployee, getEmployees, getEmployeeById };

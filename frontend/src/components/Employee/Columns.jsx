@@ -10,11 +10,12 @@ export const columns = [
     maxWidth: "250px",
   },
   {
-    name: "Employee Name",
+    name: "Name",
     selector: (row) => row.userId.name,
     sortable: true, // Enable sorting for this column
     wrap: true,
     maxWidth: "150px",
+    center: true,
   },
   {
     name: "Image",
@@ -22,12 +23,13 @@ export const columns = [
       <img
         src={`http://localhost:5000/uploads/${row.userId.profileImage}`}
         alt="Employee Profile"
-        style={{ width: "70px", height: "70px", borderRadius: "50%" }}
+        style={{ width: "50px", borderRadius: "50%" }}
       />
     ),
     sortable: true,
     wrap: true,
-    maxWidth: "150px",
+    maxWidth: "100px",
+    center: true,
   },
   {
     name: "Department",
@@ -35,18 +37,21 @@ export const columns = [
     sortable: true, // Enable sorting for this column
     wrap: true,
     maxWidth: "150px",
+    center: true,
   },
   {
     name: "DoB",
     selector: (row) => new Date(row.DoB).toLocaleDateString(),
     sortable: true, // Enable sorting for this column
     wrap: true,
-    maxWidth: "150px",
+    maxWidth: "100px",
+    center: true,
   },
   {
     name: "Action",
     selector: (row) => row.action,
     allowOverflow: true,
+    center: true,
   },
 ];
 

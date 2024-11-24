@@ -106,4 +106,43 @@ const getEmployeeById = async (req, res) => {
   }
 };
 
-export { addEmployee, getEmployees, getEmployeeById };
+const updateEmployeeById = async (req, res) => {
+  const { id } = req.params;
+  const { name, designation, email, department, salary } = req.body;
+
+  const employee = await Employee.findById(id);
+  if (!employee) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Employee not found" });
+  }
+
+  const user = await User.findById(employee.userId);
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found" });
+  }
+
+  user.name = name;
+  user.email = email;
+  await user.save();
+
+  employee.Designation = designation;
+  employee.salary = salary;
+  if (department) {
+    const departmentDoc = await Department.findOne({
+      departmentName: department,
+    });
+    if (!departmentDoc) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Department not found" });
+    }
+    employee.Department = departmentDoc._id; // Update with the new department ID
+  }
+  await employee.save();
+
+  res
+    .status(200)
+    .json({ success: true, message: "Employee updated successfully" });
+};
+export { addEmployee, getEmployees, getEmployeeById, updateEmployeeById };

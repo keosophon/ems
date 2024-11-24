@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const EditEmployee = () => {
   const [employee, setEmployee] = useState({
@@ -12,6 +13,7 @@ const EditEmployee = () => {
   });
   const [departments, setDepartments] = useState([]);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const fetchEmployee = async () => {
     try {
@@ -56,11 +58,37 @@ const EditEmployee = () => {
     fetchAllDepartments();
   }, []);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevent default form submission behavior
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:5000/api/employee/update/${id}`,
+        employee,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      if (response.data.success) {
+        alert("Employee updated successfully");
+        navigate("/AdminDashboard/EmployeeList");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Token invalid or expired
+        alert("Session expired. Please log in again.");
+        navigate("/login"); // Redirect to login page
+      } else {
+        alert("Cannot update employee", error.message);
+      }
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Employee</h2>
-        <form className="space-y-6">
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Name:

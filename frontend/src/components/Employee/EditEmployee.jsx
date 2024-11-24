@@ -85,7 +85,7 @@ const EditEmployee = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className=" bg-gray-100 flex justify-center">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-lg">
         <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Employee</h2>
         <form className="space-y-6" onSubmit={handleSubmit}>
@@ -163,7 +163,7 @@ const EditEmployee = () => {
           <div className="flex justify-end">
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-orange-600 text-white py-2 px-4 rounded-lg hover:bg-orange-700"
             >
               Save Changes
             </button>

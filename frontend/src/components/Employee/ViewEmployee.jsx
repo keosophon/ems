@@ -31,7 +31,7 @@ export default function ViewEmployee() {
   }, [id, token]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <div className="flex justify-center bg-gray-100 p-6">
       {employee ? (
         <div className="bg-white shadow-md rounded-lg p-6 max-w-4xl w-full">
           <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">

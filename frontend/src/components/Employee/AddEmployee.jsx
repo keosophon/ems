@@ -75,7 +75,9 @@ export default function AddEmployee() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-semibold mb-6">Add New Employee</h2>
+      <h2 className="text-2xl font-semibold mb-6 text-center">
+        Add New Employee
+      </h2>
       <form
         onSubmit={handleSubmit}
         className="grid grid-cols-1 md:grid-cols-2 gap-4"

@@ -61,7 +61,7 @@ export default function AdminDashboardSidebar() {
           <span>Leaves</span>
         </NavLink>
         <NavLink
-          to="/SalaryDashboard"
+          to="/AdminDashboard/AddSalary"
           className={({ isActive }) =>
             `flex items-center space-x-3 text-gray-300 hover:text-white hover:bg-orange-700 rounded-md py-3 px-4 transition-colors ${
               isActive ? "bg-orange-700 text-white" : ""

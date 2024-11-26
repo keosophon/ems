@@ -74,7 +74,7 @@ const getEmployees = async (req, res) => {
     const employees = await Employee.find()
       .populate("userId", { password: 0 })
       .populate("Department");
-    console.log(employees);
+    //console.log(employees);
     res.status(200).json({
       success: true,
       employees,
@@ -145,4 +145,63 @@ const updateEmployeeById = async (req, res) => {
     .status(200)
     .json({ success: true, message: "Employee updated successfully" });
 };
-export { addEmployee, getEmployees, getEmployeeById, updateEmployeeById };
+
+const getEmployeesByDepartment = async (req, res) => {
+  const { department } = req.query; // Get the department name from query parameters
+  console.log(department);
+  if (!department) {
+    return res.status(400).json({
+      success: false,
+      message: "Department name is required.",
+    });
+  }
+
+  try {
+    // Find the department document by name
+    const departmentDoc = await Department.findOne({
+      departmentName: department,
+    });
+
+    console.log(departmentDoc);
+
+    if (!departmentDoc) {
+      return res.status(404).json({
+        success: false,
+        message: "Department not found.",
+      });
+    }
+
+    // Fetch employees belonging to the department
+    const employees = await Employee.find({
+      Department: departmentDoc._id,
+    })
+      .populate("userId", { password: 0 })
+      .populate("Department"); // Populate user details, excluding the password; // Populate department details
+
+    if (employees.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No employees found for the selected department.",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      employees,
+    });
+  } catch (error) {
+    console.error("Error in getEmployeesByDepartment:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message || "Failed to fetch employees by department.",
+    });
+  }
+};
+
+export {
+  addEmployee,
+  getEmployees,
+  getEmployeeById,
+  updateEmployeeById,
+  getEmployeesByDepartment,
+};

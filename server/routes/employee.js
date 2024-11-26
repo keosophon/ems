@@ -4,6 +4,7 @@ import {
   addEmployee,
   getEmployees,
   getEmployeeById,
+  getEmployeesByDepartment,
   updateEmployeeById,
 } from "../controllers/employeeController.js";
 import multer from "multer";
@@ -30,5 +31,10 @@ employeeRouter.get("/", verifyController, getEmployees);
 
 employeeRouter.get("/:id", verifyController, getEmployeeById);
 employeeRouter.put("/update/:id", verifyController, updateEmployeeById);
+employeeRouter.get(
+  "/department/:department",
+  verifyController,
+  getEmployeesByDepartment
+);
 
 export default employeeRouter;

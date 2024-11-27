@@ -32,7 +32,7 @@ employeeRouter.get("/", verifyController, getEmployees);
 employeeRouter.get("/:id", verifyController, getEmployeeById);
 employeeRouter.put("/update/:id", verifyController, updateEmployeeById);
 employeeRouter.get(
-  "/department/:department",
+  "/department/:id",
   verifyController,
   getEmployeesByDepartment
 );

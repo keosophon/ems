@@ -5,28 +5,43 @@ const AddSalary = () => {
   const [departments, setDepartments] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [formData, setFormData] = useState({
-    department: "",
-    employee: "",
-    salary: "",
-    allowance: "",
-    deductions: "",
-    payDate: "",
+    employeeId: null,
+    salary: 0,
+    allowance: 0,
+    deductions: 0,
+    payDate: null,
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-
-    // Fetch employees when a department is selected
-    if (name === "department") {
-      fetchEmployees(value);
-      setFormData({ ...formData, employee: "", department: value }); // Reset employee selection
+  const fetchEmployees = async (id) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/employee/department/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.data.success) {
+        console.log(response.data.employees);
+        setEmployees(response.data.employees);
+      }
+    } catch (error) {
+      console.error("Error fetching employees:", error);
     }
   };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+    console.log(formData);
+  };
 
+  const handleDepartment = (e) => {
+    fetchEmployees(e.target.value);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    //console.log("Form Data Submitted:", formData);
     // Add logic to process the form data, such as sending it to a backend API
   };
 
@@ -40,24 +55,6 @@ const AddSalary = () => {
       setDepartments(response.data.data);
     } catch (error) {
       console.error("Error fetching departments:", error);
-    }
-  };
-
-  const fetchEmployees = async (department) => {
-    console.log(department);
-    try {
-      const response = await axios.get(
-        `http://localhost:5000/api/employee?department=${department}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
-      console.log(response.data.employees);
-      setEmployees(response.data.employees);
-    } catch (error) {
-      console.error("Error fetching employees:", error);
     }
   };
 
@@ -83,12 +80,12 @@ const AddSalary = () => {
             id="department"
             name="department"
             value={formData.department}
-            onChange={handleChange}
+            onChange={handleDepartment}
             className="mt-2 block w-full rounded-md border-gray-300 shadow-lg p-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg"
           >
             <option value="">Choose a department</option>
             {departments.map((department) => (
-              <option key={department._id} value={department.departmentName}>
+              <option key={department._id} value={department._id}>
                 {department.departmentName}
               </option>
             ))}
@@ -97,22 +94,22 @@ const AddSalary = () => {
 
         <div>
           <label
-            htmlFor="employee"
+            htmlFor="employeeId"
             className="block text-sm font-medium text-gray-700"
           >
             Select Employee
           </label>
           <select
-            id="employee"
-            name="employee"
-            value={formData.employee}
+            id="employeeId"
+            name="employeeId"
+            value={formData.employeeId}
             onChange={handleChange}
-            disabled={!formData.department}
+            //disabled={!formData.department}
             className="mt-2 block w-full rounded-md border-gray-300 shadow-lg p-4 focus:border-indigo-500 focus:ring-indigo-500 sm:text-lg"
           >
             <option value="">Choose an employee</option>
             {employees.map((employee) => (
-              <option key={employee._id} value={employee.name}>
+              <option key={employee._id} value={employee.employeeID}>
                 {employee.userId.name}
               </option>
             ))}

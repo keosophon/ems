@@ -43,6 +43,32 @@ const AddSalary = () => {
     e.preventDefault();
     //console.log("Form Data Submitted:", formData);
     // Add logic to process the form data, such as sending it to a backend API
+
+    try {
+      const response = axios.post(
+        "http://localhost:5000/api/salary/add",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      if (response.data && response.data.success) {
+        console.log(response.data.message);
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error adding salary:", error);
+      alert("Error adding salary");
+      console.log({
+        employeeId: formData.employeeId,
+        salary: formData.salary,
+        allowance: formData.allowance,
+        deductions: formData.deductions,
+        payDate: formData.payDate,
+      });
+    }
   };
 
   const fetchDepartments = async () => {
@@ -109,7 +135,7 @@ const AddSalary = () => {
           >
             <option value="">Choose an employee</option>
             {employees.map((employee) => (
-              <option key={employee._id} value={employee.employeeID}>
+              <option key={employee._id} value={employee._id}>
                 {employee.userId.name}
               </option>
             ))}
@@ -190,7 +216,7 @@ const AddSalary = () => {
         <div className="md:col-span-2">
           <button
             type="submit"
-            className="w-full py-4 px-6 bg-indigo-600 text-white text-lg font-semibold rounded-md shadow-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 focus:ring-offset-2"
+            className="w-full py-4 px-6 bg-orange-600 text-white text-lg font-semibold rounded-md shadow-lg hover:bg-orange-700 focus:outline-none focus:ring-4 focus:ring-orange-500 focus:ring-offset-2"
           >
             Submit
           </button>

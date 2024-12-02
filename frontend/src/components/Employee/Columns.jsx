@@ -81,7 +81,7 @@ export function ActionButtons({ id, onRefresh }) {
       </button>
       <button
         className="bg-blue-600 hover:bg-blue-700 rounded text-xl text-white p-2 mr-2 "
-        onClick={() => navigate(`/AdminDashboard/Salary/${id}`)}
+        onClick={() => navigate(`/AdminDashboard/Employees/Salary/${id}`)}
       >
         Saraly
       </button>

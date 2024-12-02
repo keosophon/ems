@@ -3,7 +3,7 @@ import Salary from "../models/Salary.js";
 export const addSalary = async (req, res) => {
   try {
     const { employeeId, salary, allowance, deductions, payDate } = req.body;
-    console.log(employeeId, salary, allowance, deductions, payDate);
+    //console.log(employeeId, salary, allowance, deductions, payDate);
     const newSalary = new Salary({
       employeeId,
       salary,
@@ -43,5 +43,22 @@ export const getSalaryById = async (req, res) => {
   } catch (error) {
     console.error("Error fetching salary:", error);
     res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+export const getSalaryByEmployeeId = async (req, res) => {
+  try {
+    const salary = await Salary.find({ employeeId: req.params.id }).populate(
+      "employeeId"
+    );
+    if (!salary) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Salary not found" });
+    }
+    //console.log(salary);
+    res.status(200).json({ success: true, salary: salary });
+  } catch (error) {
+    console.error("Error fetching salary:", error);
   }
 };

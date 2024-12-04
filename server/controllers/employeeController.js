@@ -90,9 +90,14 @@ const getEmployees = async (req, res) => {
 
 const getEmployeeById = async (req, res) => {
   try {
-    const employee = await Employee.findById(req.params.id)
+    let employee = await Employee.findById(req.params.id)
       .populate("userId", { password: 0 })
       .populate("Department");
+    if (!employee) {
+      employee = await Employee.findOne({ userId: req.params.id })
+        .populate("userId", { password: 0 })
+        .populate("Department");
+    }
     res.status(200).json({
       success: true,
       employee,
